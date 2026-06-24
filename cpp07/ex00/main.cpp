@@ -10,9 +10,9 @@ int	main(void) {
 	std::cout << "max(a, b) = " << ::max(a, b) << std::endl;
 	std::string str1 = "hello";
 	std::string str2 = "world";
-	::swap(c, d);
+	::swap(str1, str2);
 	std::cout << "str1 = " << str1 << ", str2 = " << str2 << std::endl;
-	std::cout << "min(str1, str2) = " << ::min(c, d) << std::endl;
-	std::cout << "max(str1, str2) = " << ::max(c, d) << std::endl;
+	std::cout << "min(str1, str2) = " << ::min(str1, str2) << std::endl;
+	std::cout << "max(str1, str2) = " << ::max(str1, str2) << std::endl;
 	return 0;
 }
