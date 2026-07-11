@@ -1,4 +1,4 @@
-NAME =
+NAME = array
 FLAGS = -Wall -Wextra -Werror -std=c++98
 SRC = main.cpp
 OBJ = $(addprefix ./, $(SRC:.cpp=.o))
