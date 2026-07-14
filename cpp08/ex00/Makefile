@@ -6,11 +6,11 @@ OBJ = $(addprefix ./, $(SRC:.cpp=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	c++ $(OBJ) -o $(NAME)
+	@c++ $(OBJ) -o $(NAME)
 	@echo "Compiled"
 
 .o:.cpp
-	c++ $(FLAGS) -c $< -o $@
+	@c++ $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ)
