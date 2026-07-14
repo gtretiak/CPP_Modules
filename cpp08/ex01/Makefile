@@ -1,16 +1,16 @@
-NAME = finder
+NAME = span
 FLAGS = -Wall -Werror -Wextra -std=c++98 -g
-SRC = main.cpp
+SRC = main.cpp Span.cpp
 OBJ = $(addprefix ./, $(SRC:.cpp=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@c++ $(OBJ) -o $(NAME)
-	@echo "Compiled"
 
-.o:.cpp
+%.o:%.cpp
 	@c++ $(FLAGS) -c $< -o $@
+	@echo "Compiled"
 
 .PHONY: clean fclean re
 
