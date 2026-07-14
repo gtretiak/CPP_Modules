@@ -3,7 +3,6 @@
 
 #include <vector>
 
-template <typename Iter>
 class	Span {
 	private:
 		std::vector<int>	numbers_;
@@ -15,7 +14,7 @@ class	Span {
 		Span	&operator=(const Span &An);
 		~Span();
 		void	addNumber(int n);
-		void	addRange(Iter first, Iter last);
+		void	addRange(std::vector<int>::iterator first, std::vector<int>::iterator last);
 		int	shortestSpan();
 		int	longestSpan();		
 };
