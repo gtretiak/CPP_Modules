@@ -3,7 +3,6 @@
 
 #include <vector>
 
-template <typename I>
 class	Span {
 	private:
 		std::vector<int>	numbers_;
@@ -15,9 +14,10 @@ class	Span {
 		Span	&operator=(const Span &An);
 		~Span();
 		void	addNumber(int n);
+		template <typename I>
 		void	addRange(I first, I last);
-		int	shortestSpan();
-		int	longestSpan();		
+		int	shortestSpan() const;
+		int	longestSpan() const;		
 };
 
 #include "Span.tpp"

@@ -27,7 +27,7 @@ void	Span::addNumber(int n) {
 	else
 		this->numbers_.push_back(n);
 }
-int	Span::shortestSpan() {
+int	Span::shortestSpan() const {
 	int	min = std::numeric_limits<int>::max();
 	if (this->numbers_.size() < 2)
 		throw std::runtime_error("Not enough numbers");
@@ -45,11 +45,11 @@ int	Span::shortestSpan() {
 	}
 	return min;
 }
-int	Span::longestSpan() {
+int	Span::longestSpan() const {
 	if (this->numbers_.size() < 2)
 		throw std::runtime_error("Not enough numbers");
 /*	std::vector<int>	tmp(this->numbers_);
 	std::sort(tmp.begin(), tmp.end());
 	return (*(tmp.end() - 1) - *(tmp.begin()));*/
-	return (std::max_element(this->numbers_) - std::min_element(this->numbers_);
+	return (*std::max_element(this->numbers_.begin(), this->numbers_.end()) - *std::min_element(this->numbers_.begin(), this->numbers_.end()));
 }

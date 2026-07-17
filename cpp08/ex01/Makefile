@@ -7,10 +7,10 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@c++ $(OBJ) -o $(NAME)
+	@echo "Compiled"
 
 %.o:%.cpp
 	@c++ $(FLAGS) -c $< -o $@
-	@echo "Compiled"
 
 .PHONY: clean fclean re
 
