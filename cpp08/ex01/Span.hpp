@@ -20,6 +20,6 @@ class	Span {
 		int	longestSpan();		
 };
 
-#include "span.tpp"
+#include "Span.tpp"
 
 #endif

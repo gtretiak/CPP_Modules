@@ -1,10 +1,10 @@
 #include "Span.hpp"
 
 template <typename I>
-void	Span::addRange(I first, I last) {
-	for (first != last)
+void	Span<I>::addRange(I first, I last) {
+	while (first != last)
 	{
-		Span::addNumber(*first);
+		Span<I>::addNumber(*first);
 		first++;
 	}
 }
