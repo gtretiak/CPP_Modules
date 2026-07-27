@@ -25,14 +25,11 @@ static void printSpan(const Span& sp)
 int main()
 {
     std::cout << "========== SUBJECT TEST ==========\n";
-    Span sp(5);
+    Span sp(100000);
     try
     {
-	    sp.addNumber(6);
-	    sp.addNumber(3);
-	    sp.addNumber(17);
-	    sp.addNumber(9);
-	    sp.addNumber(11);
+	    for (int i = 0; i < 100000; i++)
+		    sp.addNumber(i);
     }
     catch (const std::exception &e)
     {
