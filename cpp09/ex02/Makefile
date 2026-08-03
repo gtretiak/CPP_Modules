@@ -1,6 +1,6 @@
-NAME = btc 
+NAME = PmergeMe 
 FLAGS = -Wall -Wextra -Werror -std=c++98 -g
-SRC = main.cpp BitcoinExchange.cpp
+SRC = main.cpp PmergeMe.cpp
 OBJ = $(addprefix ./, $(SRC:%.cpp=.o))
 
 all: $(NAME)
