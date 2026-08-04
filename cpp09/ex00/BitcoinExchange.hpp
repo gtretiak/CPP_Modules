@@ -1,17 +1,23 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 #include <map>
+#include <string>
 
 class	BitcoinExchange {
 	private:
+		std::string	DBPath_;
 		std::map<std::string, double>	data_;
-		bool	isValidDate(const std::string &date) const;
-		bool	isValidValue(const double &value) const;
-		double	getExchangeRate(const std::string &date) const;
-		DataBaseException {}; // TODO
+		bool	isValidDate_(const std::string &date) const;
+		bool	isValidValue_(const double &value) const;
+		double	getExchangeRate_(iterator?) const; //TODO
+		DataBaseException {}; // TODO?
 	public:
-		void	loadDB(std::string filename); // std::ifstream, std::getline, std::stringstream, atof, strtod
-		void	processQuery(std::string filename);
+		BitcoinExchange(); //.DataBase/data.csv
+		BitcoinExchange(const std::string &DBPath);
+		BitcoinExchange(const BitcoinExchange &An);
+		BitcoinExchange	&operator=(const BitcoinExchange &An);
+		void	loadDB(const std::string &filename); // std::ifstream, std::getline, std::stringstream, atof, strtod
+		int		processQuery(const std::string &filename);
 };
 
 /*
