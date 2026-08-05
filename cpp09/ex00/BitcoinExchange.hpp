@@ -7,17 +7,17 @@ class	BitcoinExchange {
 	private:
 		std::string	DBPath_;
 		std::map<std::string, double>	data_;
-		bool	isValidDate_(const std::string &date) const;
-		bool	isValidValue_(const double &value) const;
-		double	getExchangeRate_(iterator?) const; //TODO
-		DataBaseException {}; // TODO?
+		bool	isValidDate(const std::string &date) const;
+		bool	isValidValue(const double &value) const;
+		double	getExchangeRate(std::map<std::string, double>::const_iterator it);// TODO parametr
+		void	loadDB(const std::string &filename);
 	public:
-		BitcoinExchange(); //.DataBase/data.csv
+		BitcoinExchange(); // "./DataBase/data.csv" by default
 		BitcoinExchange(const std::string &DBPath);
 		BitcoinExchange(const BitcoinExchange &An);
 		BitcoinExchange	&operator=(const BitcoinExchange &An);
-		void	loadDB(const std::string &filename); // std::ifstream, std::getline, std::stringstream, atof, strtod
-		int		processQuery(const std::string &filename);
+		~BitcoinExchange();
+		void	processQuery(const std::string &filename);
 };
 
 /*
