@@ -17,9 +17,9 @@ class	BitcoinExchange {
 		void	parseLine(std::string &line, bool isDB);
 		void	convertDate();
 		void	printErrors() const;
-		ValidationResult	isValidDate(const std::string &date) const;
-		ValidationResult	isValidValue(const double &value) const;
-		double	Exchange();
+		bool	isValidDate(const std::string &date) const;
+		bool	isValidValue(std::string &valueStr, double &value) const;
+		double	getExchangeRate(const std::string &date) const;
 	public:
 		BitcoinExchange(); // "./DataBase/data.csv" by default
 		BitcoinExchange(const std::string &DBPath);
@@ -27,14 +27,7 @@ class	BitcoinExchange {
 		BitcoinExchange	&operator=(const BitcoinExchange &An);
 		~BitcoinExchange();
 
-		void	processQuery(const std::string &filename);
-};
-
-enum	ValidationResult {
-	VALID,
-	BAD_DATE,
-	NEGATIVE,
-	TOO_LARGE
+		void	processQuery(const std::string &inputFilename);
 };
 
 /*

@@ -23,7 +23,7 @@ BitcoinExchange	&BitcoinExchange::operator=(const BitcoinExchange &An) {
 BitcoinExchange::~BitcoinExchange() {}
 
 // Public member function:
-void	BitcoinExchange::processQuery(const std::string &filename) {
+void	BitcoinExchange::processQuery(const std::string &inputFilename) {
 	std::ifstream	file(filename.c_str());
 	if (!file.is_open())
 		throw std::runtime_error("Error: could not open input file.");
@@ -63,6 +63,8 @@ void	BitcoinExchange::parseLine(std::string	&line, bool isDB) {
 	std::stringstream	ss(line);
 	//verify each line of DB to avoid comparison with garbage; throw
 	//verify each line of FILE; print errors and continue
+	//check for delimiters and their number with find()
+	//trim spaces with substr()
 	if (isDB)
 	{
 		std::getline(ss, this->currentDate_, ',');
@@ -114,23 +116,25 @@ void	BitcoinExchange::printErrors() const {
 
 	}
 }
-ValidationResult	BitcoinExchange::isValidDate() {
+bool	BitcoinExchange::isValidDate(const std::string &date) const {
 	if (wrong)
+		// for DB might be ##### 
 	// length = 10
 	// index 4 and 7 should be '-'
-	// rest are digits
+	// rest are isdigit()
 	// extracting to year, month, day
+	// strtol()
 	// range 1-12 for month, 1-31 for day (but not always), leap years
 		return 1;
 	return 0;
 }
-ValidationResult	BitcoinExchange::isValidValue(const double &value) const {
+bool	BitcoinExchange::isValidValue(std::string &valueStr, double &value) const {
 	if (value < 0)
 		return 2;
 	else if (value > 1000)
 		return 3;
 	return 0;
 }
-double	BitcoinExchange::Exchange(const std::string &value) {
+double	BitcoinExchange::getExchangeRate(const std::string &date) const {
 	map.lower_bound()
 }
