@@ -7,7 +7,7 @@ int	main(int argc, char **argv) {
 	{
 		try
 		{
-			std::string	DBPath = "./DataBase/data.csv";
+			std::string	DBPath = "./db.csv";
 			BitcoinExchange	btc(DBPath);
 			btc.processQuery(argv[1]);
 		}

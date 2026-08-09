@@ -9,17 +9,15 @@ class	BitcoinExchange {
 		std::map<std::string, double>	data_;
 		std::string	currentDate_;
 		std::string	currentValueStr_;
-		double		currentValue_;
-		ValidationResult	resDate_;
-		ValidationResult	resValue_;
+		double		currentValueD_;
 
 		void	loadDB();
-		void	parseLine(std::string &line, bool isDB);
-		void	convertDate();
-		void	printErrors() const;
-		bool	isValidDate(const std::string &date) const;
-		bool	isValidValue(std::string &valueStr, double &value) const;
-		double	getExchangeRate(const std::string &date) const;
+		int	parseLine(std::string &line, bool isDB);
+	//	void	convertDate();
+		std::string	trimSpaces(const std::string &str) const;
+		bool	isValidDate() const;
+		bool	isValidValue();
+		double	getExchangeRate() const;
 	public:
 		BitcoinExchange(); // "./DataBase/data.csv" by default
 		BitcoinExchange(const std::string &DBPath);
@@ -27,14 +25,7 @@ class	BitcoinExchange {
 		BitcoinExchange	&operator=(const BitcoinExchange &An);
 		~BitcoinExchange();
 
-		void	processQuery(const std::string &inputFilename);
+		void	processQuery(const std::string &inputFilename); 
 };
-
-/*
-For each line:
-Validate date format (check for YYYY-MM-DD).
-Validate pipe |.
-Find rate in map. with map.lower_bound(date) finds the element that is >= date (if doesn't match previos one)
-Multiply and print.*/
 
 #endif
