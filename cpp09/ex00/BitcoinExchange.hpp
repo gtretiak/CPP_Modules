@@ -16,7 +16,7 @@ class	BitcoinExchange {
 	//	void	convertDate();
 		std::string	trimSpaces(const std::string &str) const;
 		bool	isValidDate() const;
-		bool	isValidValue();
+		bool	isValidValue(bool isDB);
 		double	getExchangeRate() const;
 	public:
 		BitcoinExchange(); // "./DataBase/data.csv" by default

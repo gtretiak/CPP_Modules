@@ -111,10 +111,10 @@ int	BitcoinExchange::parseLine(std::string	&line, bool isDB) {
 	{
 		if (isDB)
 			return 1;
-		std::cerr << "Error: wrong data format: " << this->currentDate_ << std::endl;
+		std::cerr << "Error: invalid date: " << this->currentDate_ << std::endl;
 		return 1;
 	}
-	if (!isValidValue())
+	if (!isValidValue(isDB))
 		return 1;
 	return 0;
 }
@@ -185,7 +185,7 @@ bool	BitcoinExchange::isValidDate() const {
 		return false;
 	return true;
 }
-bool	BitcoinExchange::isValidValue() {
+bool	BitcoinExchange::isValidValue(bool isDB) {
 	char	*end;
 	this->currentValueD_ = std::strtod(this->currentValueStr_.c_str(), &end);
 	if (*end != '\0')
@@ -198,7 +198,7 @@ bool	BitcoinExchange::isValidValue() {
 		std::cerr << "Error: not positive number: " << this->currentValueD_ << std::endl;
 		return false;
 	}
-	else if (this->currentValueD_ > 1000)
+	else if (this->currentValueD_ > 1000 && !isDB)
 	{
 		std::cerr << "Error: too big number: " << this->currentValueD_ << std::endl;
 		return false;
