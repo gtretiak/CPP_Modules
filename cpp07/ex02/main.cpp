@@ -6,7 +6,7 @@
 #define MAX_VAL 5
 int main(int, char**)
 {
-    Array<int> numbers(MAX_VAL);
+    Array<int> numbers(MAX_VAL); // creating an array of int
     int* mirror = new int[MAX_VAL];
     srand(time(NULL));
     std::cout << "Generating values...\n"; 
@@ -20,6 +20,7 @@ int main(int, char**)
     std::cout << "\nCopy constructor and copy assignment testing...";
     Array<int> tmp = numbers;
     Array<int> test(tmp);
+    tmp = test;
     std::cout << "Copies created successfully.\nComparing values...";
     for (int i = 0; i < MAX_VAL; i++)
     {
@@ -33,7 +34,7 @@ int main(int, char**)
     std::cout << "Out of bounds reach attempts (test for exceptions)...\n";
     try
     {
-        numbers[-2] = 0;
+        numbers[-2] = 0; // becomes huge unsigned
     }
     catch(const std::exception& e)
     {
@@ -41,7 +42,7 @@ int main(int, char**)
     }
     try
     {
-        numbers[MAX_VAL] = 0;
+        numbers[MAX_VAL] = 0; // the last should be MAX_VAL - 1
     }
     catch(const std::exception& e)
     {
@@ -50,7 +51,11 @@ int main(int, char**)
     for (int i = 0; i < MAX_VAL; i++)
     {
         numbers[i] = rand();
+	std::cout << "numbers[" << i << "]: " << numbers[i] << std::endl;
+	std::cout << "test[" << i << "]: " << test[i] << std::endl;
+	std::cout << "tmp[" << i << "]: " << tmp[i] << std::endl;
     }
+
     std::cout << "\nDeallocating memory slots...\n";
     delete [] mirror;//
     return 0;

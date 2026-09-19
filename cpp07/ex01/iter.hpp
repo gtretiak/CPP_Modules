@@ -2,6 +2,8 @@
 #define ITER_HPP
 #include <iostream>
 
+// function templates:
+
 template <typename T>
 void	iter(T *addr, const size_t len, void (*f)(T &val)) {
 	for (size_t i = 0; i < len; i++)
@@ -12,7 +14,7 @@ template <typename T>
 void	iter(const T *addr, const size_t len, void (*f)(const T &val)) {
 	for (size_t i = 0; i < len; i++)
 		f(addr[i]);
-}
+} // overload for const
 
 template <typename T>
 void	doubleValue(T &val) {

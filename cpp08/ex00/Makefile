@@ -1,7 +1,7 @@
 NAME = finder
 FLAGS = -Wall -Werror -Wextra -std=c++98 -g
 SRC = main.cpp
-OBJ = $(addprefix ./, $(SRC:.cpp=.o))
+OBJ = $(addprefix ./, $(SRC:%.cpp=%.o))
 
 all: $(NAME)
 
@@ -9,7 +9,7 @@ $(NAME): $(OBJ)
 	@c++ $(OBJ) -o $(NAME)
 	@echo "Compiled"
 
-.o:.cpp
+%.o:%.cpp
 	@c++ $(FLAGS) -c $< -o $@
 
 .PHONY: clean fclean re

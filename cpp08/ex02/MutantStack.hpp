@@ -1,53 +1,30 @@
 #ifndef MUTANTSTACK_HPP
 #define MUTANTSTACK_HPP
-
+#include <stack>
+#include <deque>
 template <typename T>
 class MutantStack : public std::stack<T> {
+	// internally std::stack is a container adapter with 'c' protected attribute (by default std::deque)
+	//	protected:
+	//		typedef typename Container	c;
 	public:
 		MutantStack();
-		MutantStack(const MutantStack &An);
-		MutantStack	&operator=(const MutantStack &An);
-		~MutantStack();
-		typedef typename std::stack<T>::container_type::iterator	iter; // iterator type of the underlying container
-										      // by typedef we shorten the return type to just iter
-		iter	begin();
-		iter	end();
-/*		protected:
- *			typedef typename Container	c;
- 		T	&top();
-		const T	&top();
-		size_t	size() const;
-		bool	empty() const;
-		void	pop();
-		void	push();*/
+		MutantStack(const MutantStack<T> &An);
+		MutantStack<T>	&operator=(const MutantStack<T> &An);
+		virtual ~MutantStack();
+		typedef typename std::stack<T>::container_type::iterator	iterator;
+		typedef typename std::stack<T>::container_type::const_iterator	const_iterator;
+		typedef typename std::stack<T>::container_type::reverse_iterator	reverse_iterator;
+		typedef typename std::stack<T>::container_type::const_reverse_iterator	const_reverse_iterator;
+		// iterator type of the underlying container,		// by typedef we shorten the return type to just iter
+		iterator	begin();
+		iterator	end();
+		const_iterator	begin() const;
+		const_iterator	end() const;
+		reverse_iterator	rbegin();
+		reverse_iterator	rend();
+		const_reverse_iterator	rbegin() const;
+		const_reverse_iterator	rend() const;
 };
-
 #include "MutantStack.tpp"
-
-template <typename T>
-MutantStack<T>::MutantStack() {}
-template <typename T>
-MutantStack<T>::MutantStack(const MutantStack &An) : std::stack<T>(An) {}
-template <typename T>
-MutantStack<T>	&MutantStack<T>::operator=(const MutantStack &An) {
-	if (this != &An)
-		std::stack<T>::operator=(An);
-	return *this;
-}
-template <typename T>
-MutantStack<T>::~MutantStack() {}
-
-template <typename T>
-typename MutantStack<T>::iter
-MutantStack<T>::begin() {
-	return this->c.begin();
-}
-template <typename T>
-typename MutantStack<T>::iter
-iter	MutantStack<T>::end() {
-	return this->c.end();
-}
-
-
-
 #endif
