@@ -19,6 +19,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
+	@rm -rf data.csv:Zone.Identifier
 	@echo "Program removed"
 
 re: fclean all
