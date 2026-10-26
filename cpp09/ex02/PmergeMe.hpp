@@ -2,6 +2,7 @@
 #define PMERGEME_HPP
 #include <vector>
 #include <deque>
+#include <algorithm> // std::lower_bound, for the binary search when inserting; std::swap, for swapping a pair; and std::distance
 
 class	PmergeMe {
 	private:
@@ -10,7 +11,7 @@ class	PmergeMe {
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe &An);
-		PmergeMe	*operator=(const PmergeMe &An);
+		PmergeMe	&operator=(const PmergeMe &An);
 		~PmergeMe();
 		sortV();
 		sortD();
