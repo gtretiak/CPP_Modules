@@ -54,34 +54,27 @@ void	PmergeMe::sortV(std::vector<int> &seq) {
 		winners.push_back(pairs[i].first);
 	}
 	sortV(winners); // recursively sort the winners
-	
+	std::vector<pair<int,int> >	sortedPairs = std::vector<pair<int,int> >();
+	for (size_t i = 0; i < winners.size(); ++i) {
+		for (size_t j = 0; j < pairs.size(); ++j) {
+			if (pairs[j].first == winners[i]) {
+				sortedPairs.push_back(pairs[j]);
+				pairs[j].first = 0; // mark as used (because all inputs are > 0, 0 is a safe marker)
+				break;
+			}
+		}
+	}
+	std::vector<int>	chain = std::vector<int>();
+	chain.push_back(sortedPairs[0].second); // b_1
+	for (size_t i = 0; i < sortedPairs.size(); ++i) {
+		chain.push_back(sortedPairs[i].first); // a_1 .. a_k (all winners)
+	}
+	int NumToInsert = NumPairs + (straggler != -1 ? 1 : 0); // number of pending losers, including straggler if any
+	insertPendingV(chain, sortedPairs, straggler, straggler != -1, NumPairs, NumToInsert); 
+	seq = chain; // writing back the sorted sequence
+}
 
-	// STEP 5: re-attach each sorted winner to a loser
-  //   sortedPairs = empty PairSeq
-  //   for each w in winners:
-  //       find the FIRST pair in `pairs` whose .first == w
-  //           (a pair already used has .first set to 0, so it never matches)
-  //       sortedPairs.push_back( that pair )
-  //       mark it used: that pair's .first = 0
-
-  //   // STEP 6: main chain = b_1, then all winners in order
-  //   chain = empty Seq
-  //   chain.push_back( sortedPairs[0].second )              // b_1
-  //   for each p in sortedPairs: chain.push_back( p.first ) // a_1 .. a_k
-
-  //   // STEP 7: insert pending losers in Jacobsthal order
-  //   P = k + (hasStraggler ? 1 : 0)
-  //   insertPending(chain, sortedPairs, straggler, hasStraggler, k, P)
-
-  //   // STEP 8: write back
-  //   seq = chain
-
-	// Why the “used” marker is 0: your inputs are always > 0, so 0 can never be a real winner. It saves you a flag array. Don’t use a vector<bool> for flags, because in the deque version that would sneak a vector into your deque implementation.
-
-// Why this works with duplicates: if two pairs share the same winner value, it doesn’t matter which one is taken first. Both losers are ≤ that value, and both pairs will be consumed eventually.
-
-// Insertion
-// insertPending(chain, sortedPairs, straggler, hasStraggler, k, P):
+static void	insertPendingV(std::vector<int> &chain, const std::vector<pair<int,int> > &sortedPairs, int straggler, bool hasStraggler, int NumPairs, int NumToInsert) {
 
 //     prev = 1        // J(2) = 1: indices <= prev are already placed (b_1)
 //     curr = 3        // J(3) = 3
@@ -146,6 +139,7 @@ void	PmergeMe::sortV(std::vector<int> &seq) {
 // all equal	pairs are all (x,x); the rebuild with the 0 marker still consumes each pair once
 // sorted / reversed	no special handling needed
 // 3000 random with duplicates	shuf -r
+
 // 6. Pitfalls checklist
 // Marker bug: if you set .first = 0 before copying the pair into sortedPairs, you’d copy a corrupted pair. Copy first, mark afterwards.
 // Off-by-one on indices: 1-based i maps to 0-based sortedPairs[i-1]. Write this mapping on paper before coding.
@@ -153,6 +147,7 @@ void	PmergeMe::sortV(std::vector<int> &seq) {
 // Group termination: the while prev < P condition is what stops the loop. If P is 1 or 2, check it by hand.
 // Recursion depth is about log₂(n), which is no concern for 3000 elements.
 // Cost of the rebuild step is O(k²) at the top level (about a million operations for 3000 elements), acceptable here, and it is part of the timed work in both containers equally.
+
 // 7. How to verify correctness (in a throwaway test program, not submitted)
 // After sorting, check the sequence is non-decreasing.
 // Compare against std::sort on the same input.
@@ -168,8 +163,6 @@ void	PmergeMe::sortV(std::vector<int> &seq) {
 // insert with binary search (std::lower_bound) the losers b2, b3...bN + straggler, comparing for every bN only up to aN (because aN is bigger anyway). 
 // Jacobsthal sequence (each number is the previous one + twice the one before)
 /*
-    pairs.add( (max(seq[i],seq[i+1]), min(...)) )
-    sort the pairs by winner, using fordJohnson recursively
     chain = [ loser of first pair ] + all winners
     pending = losers of pairs 2..n, then straggler (if any)
     for each index group in jacobsthalOrder(size of pending):
@@ -184,6 +177,9 @@ void	PmergeMe::sortV(std::vector<int> &seq) {
 void	PmergeMe::sortD(std::deque<int> &seq) {
 std::deque<pair<int, int> >	
 int	straggler = -1; // if odd, the last element is left over
+} //TODO
+
+void	PmergeMe::insertPendingD(std::deque<int> &chain, const std::deque<pair<int,int> > &sortedPairs, int straggler, bool hasStraggler, int NumPairs, int NumToInsert) {} //TODO
 
 }
 void	PmergeMe::compare() {
