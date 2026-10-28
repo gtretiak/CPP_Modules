@@ -16,6 +16,8 @@ class	PmergeMe {
 		~PmergeMe();
 		void	fillV(int argc, char **argv);
 		void	fillD(int argc, char **argv);
+		void	sortV();
+		void	sortD();
 		void	sortV(std::vector<int> &seq);
 		void	sortD(std::deque<int> &seq);
 		std::vector<int>	getV() const;

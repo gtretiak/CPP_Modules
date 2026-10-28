@@ -1,6 +1,9 @@
 #include "PmergeMe.hpp"
 #include <iostream>
 #include <sys/time.h>
+#include <limits>
+#include <cstdlib>
+#include <string>
 #define ARG "Error: Invalid number of arguments: <./PmergeMe Num1 Num2 ... NumN>"
 #define INVALID "Error: Invalid argument(s) detected. Please provide only positive integers."
 
@@ -11,10 +14,9 @@ static void printTime(double elapsed1, double elapsed2, int N) {
 
 static void printBefore(int argc, char **argv) {
 	std::cout << "Before:";
-	for (int i = 1; i < argc; i++) {
+	for (int i = 1; i < argc; i++)
 		std::cout << " " << argv[i];
-		std::cout << std::endl;
-	}
+	std::cout << std::endl;
 }
 
 static bool isArgInvalid(int argc, char **argv) {	
@@ -26,10 +28,10 @@ static bool isArgInvalid(int argc, char **argv) {
 			if (!std::isdigit(arg[j])) // reject non-digits
 				return true;
 			}
-		}
-		long num = std::stol(arg);
+		long num = std::strtol(arg.c_str(), NULL, 10);
 		if (num > std::numeric_limits<int>::max()) // reject int overflows
 			return true;
+		}
 	return false;
 }
 
@@ -49,13 +51,13 @@ int	main(int argc, char **argv) {
 
 		gettimeofday(&start, NULL);
 		sorter.fillV(argc, argv);
-		sorter.sortV(sorter.getV());
+		sorter.sortV();
 		gettimeofday(&end, NULL);
 		double elapsed1 = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);		
 		
 		gettimeofday(&start, NULL);
 		sorter.fillD(argc, argv);
-		sorter.sortD(sorter.getD());
+		sorter.sortD();
 		gettimeofday(&end, NULL);
 		double elapsed2 = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
 		
