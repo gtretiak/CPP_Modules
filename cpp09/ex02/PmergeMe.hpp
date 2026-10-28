@@ -8,7 +8,8 @@ class	PmergeMe {
 	private:
 		std::vector<int>	_v;
 		std::deque<int>		_d;
-		// private helpers: recursion + insertion per container?
+		void	sortV(std::vector<int> &seq);
+		void	sortD(std::deque<int> &seq);
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe &An);
@@ -18,10 +19,6 @@ class	PmergeMe {
 		void	fillD(int argc, char **argv);
 		void	sortV();
 		void	sortD();
-		void	sortV(std::vector<int> &seq);
-		void	sortD(std::deque<int> &seq);
-		std::vector<int>	getV() const;
-		std::deque<int>	getD() const;
 		void	compare();
 		void	printSorted() const;
 };

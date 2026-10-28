@@ -7,8 +7,8 @@
 #include <stdexcept>
 #define WRONG "Sorting results do not match between std::vector and std::deque."
 
-static void insertPendingV(std::vector<int> &chain, const std::vector<std::pair<int, int> > &sortedPairs, int straggler, int NumPairs, int NumToInsert);
-static void insertPendingD(std::deque<int> &chain, const std::deque<std::pair<int, int> > &sortedPairs, int straggler, int NumPairs, int NumToInsert);
+static void insertPendingV(std::vector<int> &chain, const std::vector<std::pair<int, int> > &sortedPairs, int straggler, int NumPairs, int P);
+static void insertPendingD(std::deque<int> &chain, const std::deque<std::pair<int, int> > &sortedPairs, int straggler, int NumPairs, int P);
 
 PmergeMe::PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe &An) : _v(An._v), _d(An._d) {}
@@ -85,21 +85,21 @@ void	PmergeMe::sortV(std::vector<int> &seq) { // say, we start with 6 2 9 4 7 1 
 		chain.push_back(sortedPairs[i].first); // a_1 .. a_k (all winners) = 6, 7, 9
 	}
 	// chain = 2, 6, 7, 9
-	int NumToInsert = NumPairs + (straggler != -1 ? 1 : 0); // number of pending losers, including straggler // 4, then 2
-	insertPendingV(chain, sortedPairs, straggler, NumPairs, NumToInsert);
+	int P = NumPairs + (straggler != -1 ? 1 : 0); // number of the // highest 1-based pending index in the pending list (losers + straggler) = 4 (b_1 is already in the chain), then 2, then 1, then 0
+	insertPendingV(chain, sortedPairs, straggler, NumPairs, P);
 	// initially chain = 2, 6, 7, 9, then after inserting b_3 = 4 (bound a_3 = 9) chain = 2, 4, 6, 7, 9, then after inserting b_2 = 1 (bound a_2 = 7) chain = 1, 2, 4, 6, 7, 9, then after inserting b_4 = 5 (straggler) chain = 1, 2, 4, 5, 6, 7, 9
 	// sortedPairs initially (6,2), (7,1), (9,4), then after inserting b_3 = 4 (bound a_3 = 9) sortedPairs = (6,2), (7,1), (9,4), then after inserting b_2 = 1 (bound a_2 = 7) sortedPairs = (6,2), (7,1), (9,4), then after inserting b_4 = 5 (straggler) sortedPairs = (6,2), (7,1), (9,4)
 	// straggler always remains the same = 5
 	// NumPairs always remains the same = 3
-	// NumToInsert = 4, then 2, then 1, then 0
+	// P = 4, then 2, then 1, then 0
 	seq = chain; // writing back the sorted sequence
 }
 
-static void	insertPendingV(std::vector<int> &chain, const std::vector<std::pair<int,int> > &sortedPairs, int straggler, int NumPairs, int NumToInsert) {
+static void	insertPendingV(std::vector<int> &chain, const std::vector<std::pair<int,int> > &sortedPairs, int straggler, int NumPairs, int P) {
 	int prev = 1; // J(2) = 1: indices <= prev are already placed (b_1)
 	int curr = 3; // J(3) = 3
-	while (prev < NumToInsert) {
-		int high = std::min(curr, NumToInsert);
+	while (prev < P) {
+		int high = std::min(curr, P);
 		int low = prev + 1;
 		for (int i = high; i >= low; --i) {
 			int value;
@@ -155,7 +155,6 @@ static void	insertPendingV(std::vector<int> &chain, const std::vector<std::pair<
 // Cost of the rebuild step is O(k²) at the top level (about a million operations for 3000 elements), acceptable here, and it is part of the timed work in both containers equally.
 
 // 7. How to verify correctness (in a throwaway test program, not submitted)
-// Loop it: thousands of random inputs of sizes 1 to 100, with small value ranges so duplicates are frequent.
 // Optional, but great for the defense: count the comparisons in a test build. The theoretical worst case for n = 5, 11, 21 is 7, 26, 66 comparisons. If your count never exceeds those, your Jacobsthal order and bounds are right.
 
 // binary
@@ -210,16 +209,16 @@ void	PmergeMe::sortD(std::deque<int> &seq) {
 	for (size_t i = 0; i < sortedPairs.size(); ++i) {
 		chain.push_back(sortedPairs[i].first);
 	}
-	int NumToInsert = NumPairs + (straggler != -1 ? 1 : 0);
-	insertPendingD(chain, sortedPairs, straggler, NumPairs, NumToInsert);
+	int P = NumPairs + (straggler != -1 ? 1 : 0);
+	insertPendingD(chain, sortedPairs, straggler, NumPairs, P);
 	seq = chain;
 } 
 
-static void	insertPendingD(std::deque<int> &chain, const std::deque<std::pair<int,int> > &sortedPairs, int straggler, int NumPairs, int NumToInsert) {
+static void	insertPendingD(std::deque<int> &chain, const std::deque<std::pair<int,int> > &sortedPairs, int straggler, int NumPairs, int P) {
 	int prev = 1;
 	int curr = 3;
-	while (prev < NumToInsert) {
-		int high = std::min(curr, NumToInsert);
+	while (prev < P) {
+		int high = std::min(curr, P);
 		int low = prev + 1;
 		for (int i = high; i >= low; --i) {
 			int value;
